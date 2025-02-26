@@ -85,3 +85,19 @@ func TestWriteToTTMLWithIndentOption(t *testing.T) {
 
 	assert.Equal(t, strings.TrimSpace(string(c)), strings.TrimSpace(w.String()))
 }
+
+func TestTTMLWhiteSpace(t *testing.T) {
+	// Open
+	s, err := astisub.OpenFile("./testdata/example-in-whitespace.ttml")
+	assert.NoError(t, err)
+
+	// Write
+	w := &bytes.Buffer{}
+	err = s.WriteToTTML(w)
+	assert.NoError(t, err)
+
+	c, err := ioutil.ReadFile("./testdata/example-out-whitespace.ttml")
+	assert.NoError(t, err)
+
+	assert.Equal(t, strings.TrimSpace(string(c)), strings.TrimSpace(w.String()))
+}

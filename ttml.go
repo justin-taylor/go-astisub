@@ -445,7 +445,7 @@ func ReadFromTTML(i io.Reader) (o *Subtitles, err error) {
 				// Init line item
 				var t = LineItem{
 					InlineStyle: tt.TTMLInStyleAttributes.styleAttributes(),
-					Text:        strings.TrimSpace(li),
+					Text:        li,
 				}
 
 				// Add style
@@ -699,16 +699,12 @@ func (s Subtitles) WriteToTTML(o io.Writer, opts ...WriteToTTMLOption) (err erro
 		// Add lines
 		for _, line := range item.Lines {
 			// Loop through line items
-			for idx, lineItem := range line.Items {
+			for _, lineItem := range line.Items {
 				// Init ttml item
 				var ttmlItem = TTMLOutItem{
 					Text:                   lineItem.Text,
 					TTMLOutStyleAttributes: ttmlOutStyleAttributesFromStyleAttributes(lineItem.InlineStyle),
 					XMLName:                xml.Name{Local: "span"},
-				}
-				// condition to avoid adding space as the last character.
-				if idx < len(line.Items)-1 {
-					ttmlItem.Text = ttmlItem.Text + " "
 				}
 
 				// Add style
